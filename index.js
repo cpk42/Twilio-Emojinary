@@ -76,23 +76,4 @@ const main = () => {
     });
 }
 
-
-
-
 main();
-
-
-
-
-//
-// const start = () => {
-//   var response = "wow";
-//   client.messages
-//     .create({
-//       from: '+17754132967',
-//       body: response,
-//       to: '+15304489510'
-//     })
-//     .then(message => console.log(message.sid))
-//     .done();
-// }
