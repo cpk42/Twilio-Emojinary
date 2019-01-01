@@ -31,6 +31,10 @@ const getNum = (min, max) => {
 
 // Main function / Initiates Server
 const main = () => {
+    http.createServer(app).listen(1337, () => {
+        console.log('Express server listening on port 1337');
+    });
+
     client.messages
         .create({
             from: '+17754132967',
@@ -40,11 +44,6 @@ const main = () => {
         .then(message => console.log(message.sid))
         .done();
 
-    http.createServer(app).listen(1337, () => {
-        console.log('Express server listening on port 1337');
-    });
-
-    let message = 0;
     var current;
 
     // POST request to handle queries sent by client phone
@@ -52,20 +51,15 @@ const main = () => {
         const twiml = new MessagingResponse();
         var query = req.body.Body.toLowerCase();
 
-        console.log(query);
-        console.log(current);
-
         if (query == 'start') {
-            var num = Math.floor(getNum(0, 13));
-            current = Emoji[num];
+            current = Emoji[Math.floor(getNum(0, 13))];
             twiml.message('Guess the Emoji: ' + current.emoji);
-            message = 1;
         } else if (query == 'exit' || query == 'quit') {
             twiml.message('Thanks for playing!');
             process.exit(1);
         } else if (handleGame(current, query)) {
-            twiml.message('Good Job!');
-            twiml.message('Type \"start\" to start or \"exit\" to exit');
+            twiml.message();
+            twiml.message('Good Job!\nType \"start\" to start or \"exit\" to exit');
         } else
             twiml.message('Guess again!')
 
